@@ -1,1 +1,1 @@
-export { Cone3d } from "./ui/Cone3d";
+export { Cone3d  } from "./ui/Cone3d";

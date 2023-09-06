@@ -1,25 +1,42 @@
-
-
 import { FC, useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { createCamera } from 'shared/lib/helpers/createCamera';
+import { createCone } from 'shared/lib/helpers/createCone3d';
+import { createRenderer } from 'shared/lib/helpers/createRenderer';
+import { createScene } from 'shared/lib/helpers/createScene';
+import { IConeParams } from 'shared/types/cone3d.interface';
 
-interface ConeProps {
-  coneParameters: {
-    radius: number;
-    height: number;
-    segments: number;
-  };
+interface Cone3dProps {
+    className?: string;
+    coneParameters: IConeParams;
 }
 
-export const Cone3d: FC<ConeProps> = ({ coneParameters }) => {
-  const coneRef = useRef<THREE.Mesh | null>(null);
-
+export const Cone3d: FC<Cone3dProps> = ({className, coneParameters }) => {
+  const sceneRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    const coneGeometry = new THREE.ConeGeometry(coneParameters.radius, coneParameters.height, coneParameters.segments);
-    const coneMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
-    const cone = new THREE.Mesh(coneGeometry, coneMaterial);
-    coneRef.current = cone;
-  }, [coneParameters]);
 
-  return null; // Компонент не отображает ничего, просто создает и хранит конус
-};
+    const scene = createScene({color: 0xAAAAAA})
+    const camera = createCamera({})
+    const renderer = createRenderer({})
+
+    const cone = createCone(coneParameters)
+
+    scene.add(cone);
+
+    sceneRef.current?.appendChild(renderer.domElement);
+    
+    const animate = () => {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    return () => {
+      scene.remove(cone);
+      renderer.dispose();
+    };
+
+  }, [coneParameters]);
+  
+  return <div ref={sceneRef}></div>
+}
