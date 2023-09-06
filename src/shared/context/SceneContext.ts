@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useContext, useRef } from 'react';
 import * as THREE from 'three';
 
 interface SceneContextProps {
