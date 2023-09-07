@@ -1,8 +1,5 @@
 export interface TriangulationResponse {
-    vertices: {
-        x: number;
-        y: number;
-        z: number;
-    }[],
-    triangles: number[][]
+    vertices: number[],
+    triangles: number[],
+    normals: number[]
 }

@@ -5,7 +5,7 @@ import { createLight } from 'shared/lib/helpers/createLight';
 import { createRenderer } from 'shared/lib/helpers/createRenderer';
 import { createScene } from 'shared/lib/helpers/createScene';
 import { TriangulationResponse } from 'shared/types/triangulation.interface';
-import { Mesh, BufferGeometry, NormalBufferAttributes, MeshBasicMaterial } from 'three';
+import { Mesh, BufferGeometry, NormalBufferAttributes } from 'three';
 
 interface Cone3dProps {
     className?: string;
