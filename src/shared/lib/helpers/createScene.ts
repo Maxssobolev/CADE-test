@@ -4,5 +4,6 @@ import * as THREE from "three";
 export const createScene = ({color}: ISceneParams) => {
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(color);
+  
   return scene
 }

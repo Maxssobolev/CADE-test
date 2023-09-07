@@ -1,3 +1,5 @@
+import { Mesh, BufferGeometry, NormalBufferAttributes } from "three";
+
 export interface ICameraParams {
     zPosition?: number;
     fow?: number;

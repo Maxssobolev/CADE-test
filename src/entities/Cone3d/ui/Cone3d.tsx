@@ -1,42 +1,70 @@
 import { FC, useEffect, useRef } from 'react';
 import { createCamera } from 'shared/lib/helpers/createCamera';
 import { createCone } from 'shared/lib/helpers/createCone3d';
+import { createLight } from 'shared/lib/helpers/createLight';
 import { createRenderer } from 'shared/lib/helpers/createRenderer';
 import { createScene } from 'shared/lib/helpers/createScene';
-import { IConeParams } from 'shared/types/cone3d.interface';
+import { TriangulationResponse } from 'shared/types/triangulation.interface';
+import { Mesh, BufferGeometry, NormalBufferAttributes, MeshBasicMaterial } from 'three';
 
 interface Cone3dProps {
     className?: string;
-    coneParameters: IConeParams;
+    coneParameters: TriangulationResponse;
 }
 
-export const Cone3d: FC<Cone3dProps> = ({className, coneParameters }) => {
-  const sceneRef = useRef<HTMLDivElement | null>(null);
+export const Cone3d: FC<Cone3dProps> = ({className, coneParameters}) => {
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const coneRef = useRef<Mesh<BufferGeometry<NormalBufferAttributes>, any> | null>(null);
+  const cameraRef = useRef<THREE.Camera | null>(null);
+
   useEffect(() => {
 
-    const scene = createScene({color: 0xAAAAAA})
+    const scene = createScene({color: 0xe6eaeb})
     const camera = createCamera({})
+    
     const renderer = createRenderer({})
 
-    const cone = createCone(coneParameters)
+    sceneRef.current = scene
+    cameraRef.current = camera
 
-    scene.add(cone);
-
-    sceneRef.current?.appendChild(renderer.domElement);
+    divRef.current?.appendChild(renderer.domElement);
     
     const animate = () => {
       requestAnimationFrame(animate);
+      if(coneRef.current){
+        coneRef.current.rotation.z += 0.005;
+      }
       renderer.render(scene, camera);
     };
 
     animate();
 
     return () => {
-      scene.remove(cone);
+      if(coneRef.current){
+        sceneRef.current?.remove(coneRef.current);
+      }
       renderer.dispose();
     };
 
-  }, [coneParameters]);
+  }, []);
+
+  useEffect(() => {
+    const light = createLight()
+    sceneRef.current?.add(light)
+    
+  }, [])
+
+  useEffect(() => {
+    if(coneRef.current){
+      sceneRef.current?.remove(coneRef.current);
+    }
+    
+    coneRef.current = createCone(coneParameters)
+    sceneRef.current?.add(coneRef.current);
+    cameraRef.current?.lookAt(coneRef.current.position)
+
+  }, [coneParameters, sceneRef])
   
-  return <div ref={sceneRef}></div>
+  return <div ref={divRef}></div>
 }
