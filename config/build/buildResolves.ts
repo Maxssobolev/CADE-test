@@ -8,7 +8,9 @@ export function buildResolves (options: BuildOptions): webpack.ResolveOptions {
     // настройка абсолютных импортов
     preferAbsolute: true,
     modules: [options.paths.src, 'node_modules'],
-    alias: {},
+    alias: {
+      process: "process/browser"
+    },
     mainFiles: ['index']
   }
 }

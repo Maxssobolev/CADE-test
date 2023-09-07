@@ -18,6 +18,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
+    '@typescript-eslint/no-explicit-any': [1],
     'react/react-in-jsx-scope': 'off',
     'react/jsx-indent': [2, 2],
     indent: [2, 2],

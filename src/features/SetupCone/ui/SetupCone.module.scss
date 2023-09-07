@@ -1,0 +1,39 @@
+.SetupCone{
+    flex-grow: 1;
+    padding: 20px;
+
+    h1 {
+        text-align: center;
+    }
+}
+
+.formFields {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    gap: 20px;
+
+    label {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        
+    }
+}
+
+.submitBtn{
+    display: block;
+    margin-top: 30px;
+    margin-left: auto;
+    border: none;
+    padding: 15px 45px;
+    font-weight: 600;
+    color: white;
+    background-color: #099;
+    cursor: pointer;
+
+}
+
+.erorr{
+    
+}
